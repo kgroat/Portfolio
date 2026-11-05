@@ -1,0 +1,19 @@
+node_modules
+.DS_Store
+
+# build output
+dist
+.output
+.vercel
+.nitro
+.tanstack
+.vinxi
+
+# env
+.env
+.env.*
+!.env.example
+
+# test / tooling
+coverage
+*.log

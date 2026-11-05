@@ -1,0 +1,248 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/jetbrains-mono';
+@import 'tailwindcss';
+
+/*
+ * Palette from the KG monogram: lilac K, peach G, on deep navy.
+ */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --color-night-950: #070917;
+  --color-night-900: #0c1024;
+  --color-night-800: #151934;
+  --color-night-700: #222748;
+  --color-night-600: #343a63;
+  --color-mist-100: #f1efff;
+  --color-mist-200: #dcd9f2;
+  --color-mist-300: #b4b2d4;
+  --color-mist-400: #8d8bb2;
+  --color-lilac-200: #e6d6ff;
+  --color-lilac-300: #ceabff;
+  --color-lilac-400: #b388ff;
+  --color-peach-200: #ffe7cf;
+  --color-peach-300: #ffd5ab;
+  --color-peach-400: #ffb877;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-night-950);
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    color: var(--color-mist-200);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-lilac-300) 45%, transparent);
+    color: white;
+  }
+
+  @media print {
+    html,
+    body {
+      background: white;
+      color: black;
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-peach-300);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    background: linear-gradient(100deg, var(--color-lilac-300) 10%, var(--color-peach-300) 90%);
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glass {
+    background: color-mix(in oklab, var(--color-night-900) 72%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid color-mix(in oklab, var(--color-mist-100) 9%, transparent);
+  }
+
+  /* Faint dotted grid behind everything, fading toward the bottom of the viewport. */
+  .backdrop-grid {
+    background-image: radial-gradient(
+      color-mix(in oklab, var(--color-mist-100) 9%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%);
+  }
+
+  /* Morphing blob mask for the portrait. */
+  .blob {
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .blob {
+      animation: blob-morph 14s ease-in-out infinite alternate;
+    }
+
+    .morph-word {
+      animation: morph-in 0.7s var(--ease-out-expo) both;
+    }
+  }
+
+  /* Highlights driven by the particle engine (`data-scene-active`). */
+  .scene-card {
+    transition:
+      border-color 0.5s var(--ease-out-expo),
+      background-color 0.5s var(--ease-out-expo),
+      transform 0.6s var(--ease-out-expo),
+      opacity 0.6s var(--ease-out-expo);
+  }
+
+  .scene-card[data-scene-active] {
+    border-color: color-mix(in oklab, var(--scene-color, var(--color-lilac-300)) 55%, transparent);
+    background-color: color-mix(
+      in oklab,
+      var(--scene-color, var(--color-lilac-300)) 7%,
+      var(--color-night-900)
+    );
+  }
+
+  .skill-row {
+    opacity: 0.55;
+  }
+
+  .skill-row[data-scene-active] {
+    opacity: 1;
+    transform: translateX(-0.5rem);
+  }
+}
+
+@keyframes blob-morph {
+  0% {
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+    rotate: 0deg;
+  }
+  50% {
+    border-radius: 63% 37% 41% 59% / 57% 61% 39% 43%;
+  }
+  100% {
+    border-radius: 37% 63% 52% 48% / 48% 37% 63% 52%;
+    rotate: 8deg;
+  }
+}
+
+@keyframes morph-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(0.35em) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem) scale(0.98);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes word-light {
+  from {
+    opacity: 0.16;
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes card-recede {
+  to {
+    transform: scale(0.92) translateY(-1.5rem);
+    filter: brightness(0.55) blur(1px);
+  }
+}
+
+/*
+ * Scroll-driven animations, as progressive enhancement: browsers without
+ * `animation-timeline` (or users who prefer reduced motion) simply see the content.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+
+    .statement {
+      view-timeline-name: --statement;
+    }
+
+    .statement-word {
+      animation: word-light linear both;
+      animation-timeline: --statement;
+      animation-range: cover calc(18% + var(--p) * 34%) cover calc(22% + var(--p) * 34%);
+    }
+
+    .scroll-progress {
+      transform-origin: left;
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+
+    .bar-fill {
+      transform-origin: left;
+      animation: grow-x linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+
+    .recede {
+      animation: card-recede linear both;
+      animation-timeline: view();
+      animation-range: exit -10% exit 90%;
+    }
+  }
+}
