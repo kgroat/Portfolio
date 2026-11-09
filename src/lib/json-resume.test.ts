@@ -28,6 +28,18 @@ describe('toJsonResume', () => {
     expect(resume.work[0]).not.toHaveProperty('endDate')
   })
 
+  it('maps education onto the JSON Resume fields', () => {
+    expect(resume.education).toEqual([
+      {
+        institution: 'University of Mary Washington',
+        area: 'Computer Science',
+        studyType: "Bachelor's degree",
+        startDate: '2009',
+        endDate: '2013',
+      },
+    ])
+  })
+
   it('omits urls for projects without one', () => {
     const gameMaster = resume.projects.find((project) => project.name === 'AI Game Master')
     expect(gameMaster).not.toHaveProperty('url')

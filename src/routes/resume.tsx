@@ -147,6 +147,18 @@ function ResumeSheet({ resume }: { resume: ResumeModel }) {
         ))}
       </ResumeSection>
 
+      <ResumeSection title="Education">
+        {resume.education.map((education) => (
+          <section key={education.institution} className="mb-3 break-inside-avoid">
+            <header className="flex flex-wrap items-baseline justify-between gap-x-4">
+              <h3 className="font-bold">{education.institution}</h3>
+              <p className="text-[9pt] text-slate-600">{education.dates}</p>
+            </header>
+            <p>{education.credential}</p>
+          </section>
+        ))}
+      </ResumeSection>
+
       <ResumeSection title="Projects">
         {resume.projects.map((project) => (
           <section key={project.name} className="mb-3 break-inside-avoid">

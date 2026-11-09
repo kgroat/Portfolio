@@ -207,6 +207,15 @@ export const profileData: ProfileInput = {
       ],
     },
   ],
+  education: [
+    {
+      institution: 'University of Mary Washington',
+      degree: "Bachelor's degree",
+      field: 'Computer Science',
+      start: '2009',
+      end: '2013',
+    },
+  ],
   projects: [
     {
       slug: 'sound-color-project',

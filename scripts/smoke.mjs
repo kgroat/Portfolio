@@ -31,7 +31,12 @@ const checks = [
     includes: ['<h1', 'data-scene=', 'application/ld+json'],
   },
   { path: '/?skill=react', status: 200, type: 'text/html' },
-  { path: '/resume', status: 200, type: 'text/html', includes: ['Experience', 'size: letter'] },
+  {
+    path: '/resume',
+    status: 200,
+    type: 'text/html',
+    includes: ['Experience', 'Education', 'size: letter'],
+  },
   { path: '/resume?paper=a4', status: 200, type: 'text/html', includes: ['size: A4'] },
   { path: '/lab', status: 200, type: 'text/html', includes: ['Warming up the particles'] },
   { path: '/resume.pdf', status: 200, type: 'application/pdf', startsWith: '%PDF-' },

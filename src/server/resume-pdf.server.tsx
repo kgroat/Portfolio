@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   projectName: { fontFamily: 'Helvetica-Bold', fontSize: 10.2 },
   projectLink: { fontSize: 8.5, color: accent, textDecoration: 'none' },
   badge: { fontFamily: 'Helvetica-Oblique', fontSize: 8.5, color: muted },
+  credential: { fontFamily: 'Helvetica', fontSize: 9.5 },
   skillRow: { flexDirection: 'row', marginBottom: 3 },
   skillCategory: { width: 128, fontFamily: 'Helvetica-Bold', fontSize: 8.8 },
   skillNames: { flex: 1, fontSize: 8.8 },
@@ -147,6 +148,19 @@ export function ResumeDocument({ resume, paper }: { resume: ResumeModel; paper: 
               {job.roles.map((role) => (
                 <Role key={role.title} role={role} />
               ))}
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.section} wrap={false}>
+          <Text style={styles.sectionTitle}>Education</Text>
+          {resume.education.map((education) => (
+            <View key={education.institution} style={styles.projectHeader}>
+              <Text style={styles.projectName}>
+                {education.institution}
+                <Text style={styles.credential}> — {education.credential}</Text>
+              </Text>
+              <Text style={styles.dates}>{education.dates}</Text>
             </View>
           ))}
         </View>

@@ -23,6 +23,13 @@ export interface JsonResume {
     summary: string
     highlights: string[]
   }>
+  education: Array<{
+    institution: string
+    area: string
+    studyType: string
+    startDate: string
+    endDate: string
+  }>
   projects: Array<{
     name: string
     description: string
@@ -59,6 +66,13 @@ export function toJsonResume(profile: Profile): JsonResume {
         highlights: role.technologies,
       })),
     ),
+    education: profile.education.map((education) => ({
+      institution: education.institution,
+      area: education.field,
+      studyType: education.degree,
+      startDate: education.start,
+      endDate: education.end,
+    })),
     projects: profile.projects.map((project) => ({
       name: project.name,
       description: project.summary,

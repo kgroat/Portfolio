@@ -22,6 +22,12 @@ export interface ResumeJob {
   roles: ResumeRole[]
 }
 
+export interface ResumeEducation {
+  institution: string
+  credential: string
+  dates: string
+}
+
 export interface ResumeProject {
   name: string
   inProgress: boolean
@@ -45,6 +51,7 @@ export interface ResumeModel {
   experience: ResumeJob[]
   projects: ResumeProject[]
   skills: ResumeSkillGroup[]
+  education: ResumeEducation[]
 }
 
 /** `https://www.kgroat.dev/` → `kgroat.dev`, `mailto:a@b.c` → `a@b.c`. */
@@ -97,5 +104,10 @@ export function toResumeModel(profile: Profile, now: string): ResumeModel {
           .map((skill) => skill.name),
       }))
       .filter((group) => group.names.length > 0),
+    education: profile.education.map((education) => ({
+      institution: education.institution,
+      credential: `${education.degree} in ${education.field}`,
+      dates: `${education.start} – ${education.end}`,
+    })),
   }
 }

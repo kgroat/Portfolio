@@ -45,6 +45,18 @@ describe('profileSchema', () => {
     expect(issuePaths(input)).toContain('experience.0.end')
   })
 
+  it('rejects malformed education years', () => {
+    const input = clone()
+    input.education[0]!.start = '09'
+    expect(issuePaths(input)).toContain('education.0.start')
+  })
+
+  it('rejects education that ends before it starts', () => {
+    const input = clone()
+    input.education[0]!.end = '2001'
+    expect(issuePaths(input)).toContain('education.0.end')
+  })
+
   it('rejects duplicate skill slugs', () => {
     const input = clone()
     input.skills[1]!.slug = input.skills[0]!.slug

@@ -57,6 +57,16 @@ describe('toResumeModel', () => {
     expect(count).toBe(loadProfile().skills.length)
   })
 
+  it('formats education with its credential and year range', () => {
+    expect(resume.education).toEqual([
+      {
+        institution: 'University of Mary Washington',
+        credential: "Bachelor's degree in Computer Science",
+        dates: '2009 – 2013',
+      },
+    ])
+  })
+
   it('flags in-progress projects', () => {
     const inProgress = resume.projects.filter((project) => project.inProgress)
     expect(inProgress.map((project) => project.name)).toEqual(['AI Game Master'])

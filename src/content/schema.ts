@@ -8,6 +8,9 @@ export const yearMonthSchema = z
   .string()
   .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Expected a calendar month formatted as YYYY-MM')
 
+/** A calendar year, stored as `YYYY` for entries that are only known to year precision. */
+export const yearSchema = z.string().regex(/^\d{4}$/, 'Expected a calendar year formatted as YYYY')
+
 export const slugSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Expected a lowercase, dash-separated slug')
@@ -45,6 +48,19 @@ export const jobSchema = z
     path: ['end'],
   })
 
+export const educationSchema = z
+  .object({
+    institution: z.string().min(1),
+    degree: z.string().min(1),
+    field: z.string().min(1),
+    start: yearSchema,
+    end: yearSchema,
+  })
+  .refine((education) => education.end >= education.start, {
+    message: 'Education cannot end before it starts',
+    path: ['end'],
+  })
+
 export const projectSchema = z.object({
   slug: slugSchema,
   name: z.string().min(1),
@@ -76,6 +92,7 @@ export const profileSchema = z
     principles: z.array(z.string().min(1)).min(1),
     links: z.array(linkSchema).min(1),
     experience: z.array(jobSchema).min(1),
+    education: z.array(educationSchema),
     projects: z.array(projectSchema),
     skills: z.array(skillSchema).min(1),
   })
@@ -108,6 +125,7 @@ export type Profile = z.output<typeof profileSchema>
 export type Link = z.output<typeof linkSchema>
 export type Job = z.output<typeof jobSchema>
 export type Role = z.output<typeof roleSchema>
+export type Education = z.output<typeof educationSchema>
 export type Project = z.output<typeof projectSchema>
 export type Skill = z.output<typeof skillSchema>
 export type { SkillCategory } from './categories'
